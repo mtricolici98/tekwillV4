@@ -1,13 +1,6 @@
-a = 10
-print(type(a))
+name = input()
 
-a = "10"
-print(type(a))
+print("Hello, {name}".format(name=name))
+print(f"Hello, {name}")
 
-# b = input()
-#
-#
-# print(a + b)
-
-
-
+# print(f"HEllo, {my_number}")

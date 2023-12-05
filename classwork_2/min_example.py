@@ -1,4 +1,4 @@
-name = input("What is your name?: ")
+name = "Marius"
 
 hello_string = "Hello " + name
 print(hello_string)
@@ -8,5 +8,3 @@ print(goodbye_string)
 
 str()
 
-
-andrei = None

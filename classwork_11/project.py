@@ -64,15 +64,14 @@ while True:
     match main_option:
         case '1':
             print('Adding a dish')
-            # Meniu pentru a selecta masa
             while True:
-                masa_selectata = input('Select masa, dela 1 la 10:')
+                masa_selectata = input('Select table (1 to 10):')
                 if not masa_selectata.isnumeric():
-                    print('Masa nu exista')
+                    print('Table does not exist')
                     continue
                 masa_selectata = int(masa_selectata)
                 if masa_selectata not in table_data:
-                    print("Nu e corecta selectia")
+                    print("Incorrect selection")
                 else:
                     break
 
@@ -110,15 +109,14 @@ while True:
         case '2':
             print('Finishing the table')
             # Checking out the table
-            # Meniu pentru a selecta masa
             while True:
-                masa_selectata = input('Select masa, dela 1 la 10:')
+                masa_selectata = input('Select table (1 to 10):')
                 if not masa_selectata.isnumeric():
-                    print('Masa nu exista')
+                    print('Table does not exist')
                     continue
                 masa_selectata = int(masa_selectata)
                 if masa_selectata not in table_data:
-                    print("Nu e corecta selectia")
+                    print("Incorrect selection")
                 else:
                     break
 
@@ -142,9 +140,9 @@ while True:
             table_data[masa_selectata].clear()
         case 'quit':
             can_quit = True
-            for masa in table_data:
-                if table_data[masa]:
-                    print(f'Masa {masa} este ne finisata, nu poti inchide programul')
+            for table in table_data:
+                if table_data[table]:
+                    print(f'Table {table} is not checked out, can not quit.')
                     can_quit = False
             if can_quit:
                 print('Goodbye')

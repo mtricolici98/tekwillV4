@@ -1,4 +1,4 @@
-from classwork_15.view.main_view import main
+from classwork_15.view.main_view import console_main
 
 if __name__ == "__main__":
-    main()
+    console_main()

@@ -37,7 +37,7 @@ def menu_authorized():
             log_out()
 
 
-def main():
+def console_main():
     while True:
         active_user = get_current_user()
         if active_user:

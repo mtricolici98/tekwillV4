@@ -1,4 +1,8 @@
-from classwork_15.data.users import USERS_DATABASE
+import hashlib
+import json
+import os.path
+
+from classwork_15.data.users import get_users_table, save_user_table
 
 current_user = None
 is_admin = False
@@ -6,9 +10,13 @@ is_admin = False
 ADMIN_EMAIL = 'admin@admin.local'
 ADMIN_PASSWORD = '123'
 
+if os.path.exists('current_user.json'):
+    current_user = json.load(open('current_user.json'))
+
 
 class RegistrationError(Exception):
     pass
+
 
 class LoginError(Exception):
     pass
@@ -16,6 +24,10 @@ class LoginError(Exception):
 
 class DatabaseError(Exception):
     pass
+
+
+def save_current_user():
+    json.dump(current_user, open('current_user.json', 'w'))
 
 
 def authenticate_user(email, password):
@@ -26,25 +38,33 @@ def authenticate_user(email, password):
         is_admin = True
         return True
 
-    for user in USERS_DATABASE:
+    for user in get_users_table():
         if user['email'] == email:
-            if user['password'] != password:
+            if user['password'] != pass_hash(password):
                 raise LoginError('Incorrect password')
             current_user = email
+            save_current_user()
             return True
 
     raise LoginError("Incorrect email")
 
 
+def pass_hash(text: str):
+    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+
 def register_user(email, password):
-    all_registered_emails = [a['email'] for a in USERS_DATABASE]
-    if len(USERS_DATABASE) >= 2:
+    user_data = get_users_table()
+    all_registered_emails = [a['email'] for a in user_data]
+    if len(user_data) >= 2:
         raise DatabaseError('Database full')
     if email in all_registered_emails:
         raise RegistrationError('Email already registered')
-    USERS_DATABASE.append(
-        {'email': email, 'password': password}
+    pass_hash(password)
+    user_data.append(
+        {'email': email, 'password': pass_hash(password)}
     )
+    save_user_table(user_data)
     return True
 
 
@@ -52,6 +72,7 @@ def log_out():
     global current_user
     global is_admin
     current_user = None
+    save_current_user()
     is_admin = False
 
 
@@ -64,4 +85,4 @@ def get_is_admin():
 
 
 def get_all_users():
-    return USERS_DATABASE
+    return get_users_table()

@@ -19,8 +19,8 @@ class UserDataBase:
         try:
             with open(self.filename, 'w') as f:
                 json.dump(self.data, f)
-        except Exception:
-            print("Failed to save data")
+        except Exception as ex:
+            print(f"Failed to save data, {ex}")
 
     def add_data(self, name, email, password):
         user = {

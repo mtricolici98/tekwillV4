@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 from classwork_24.homework_currency_converter import ConversionFileService, CurrencyConversionService
 
@@ -7,6 +7,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
+    for header, value in request.headers.items():
+        print(header, value)
     return "<h1>Hello World!</h1>"
 
 
